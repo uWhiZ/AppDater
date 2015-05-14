@@ -4,6 +4,8 @@ from langDater import LangDater
 from exceptionHandler import ExceptionHandler
 
 class AppDater(object):
+    """Interfaz de actualización para las underc0de tools"""
+
     def __init__(self, appname, version, debug=False):
         self.__debug = debug
 
@@ -15,8 +17,16 @@ class AppDater(object):
     
 
     def run(run, args=[]):
+        """Ejecuta una acción según el comando recibido.
+
+            - coreupdate -> actualiza app
+            - uicheck -> verifica temas disponibles
+            - uiupdate -> instala temas seleccionados
+            - langcheck -> verifica idiomas disponibles
+            - langupdater -> instala idiomas seleccionados
+        """
         try:	
-            if run == "coredater":
+            if run == "coreupdate":
                 self.__coreDater.run()
             elif run == "uicheck":
                 uiList = self.__uiDater.check()
@@ -34,24 +44,3 @@ class AppDater(object):
         except Exception as e:
             if self.__debug:
                 self.__exceptionHandler.showError(e)
-
-def main():
-    appname = "RAT"
-    version = "1.0"
-    appDater = AppDater(appname, version, True)
-    
-    # CoreDater
-    appDater.run("coredater")
-    
-    # UiDater
-    uiList = appDater.run("uicheck")
-    newUiList = uiList[2, 4]
-    appDater.run("uiupdate", newUiList)
-    
-    # LangDater
-    langList = appDater.run("langcheck")
-    newLangList = langList[1, 3]
-    appDater.run("langupdate", newLangList)
-
-if __name__ == "__main__":
-    main()
